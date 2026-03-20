@@ -62,7 +62,10 @@ const cardDescStyle = {
 
 
 export default function AddRemove() {
-  const [card, setCard] = useState([])
+  const [card, setCard] = useState(()=>{
+    const saved = localStorage.getItem("cards")
+    return saved ? JSON.parse(saved) : [];
+  })
   const [form, setForm] = useState({name:'', desc:''})
 
   const changeHandler = (e) => {
@@ -71,13 +74,22 @@ export default function AddRemove() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCard(prev=>[...prev, form]);
+    setCard(prev=>{
+      const newCard = [...prev, form];
+      // localStorage.setItem("cards", JSON.stringify(newCard))
+      return newCard
+    });
     setForm({name:'', desc:''});
   }
 
-  // useEffect(()=>{
-  //   alert("useEffect 작동")
-  // }, [card])
+  useEffect(()=>{
+    localStorage.setItem("cards", JSON.stringify(card))
+    console.log(card, 111)
+    return () => {
+      console.log("cleanup!!")
+      console.log(card, 222)
+    }
+  }, [card])
 
   return (
 
@@ -102,7 +114,12 @@ export default function AddRemove() {
             <div style={cardNameStyle}>{item.name}</div>
             <div style={cardDescStyle}>{item.desc}</div>
             <button
-              onClick={()=>setCard(prev => prev.filter((_, i) => i !== idx))}
+              onClick={()=>setCard(prev => {
+                const newCard = prev.filter((_, i) => i !== idx);
+                console.log(`${item.name} 삭제되었습니다.`)
+                // localStorage.setItem('cards', JSON.stringify(newCard));
+                return newCard
+              })}
             >
               삭제
             </button>

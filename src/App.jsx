@@ -9,6 +9,9 @@ import TitleList from './react_study/ex02_useState/ex03_map'
 import UseStateArr from './react_study/ex02_useState/ex04_arr'
 import FlexEx from './react_study/ex02_useState/ex05_flex'
 import ObjectEx from './react_study/ex02_useState/ex06_object'
+import Filter from './react_study/ex02_useState/ex07_filter'
+import AddRemove from './react_study/ex03_useEffect/ex01_localstorage'
+import Timer from './react_study/ex03_useEffect/ex02_Timer'
 
 function App() {
   // const [title, setTitle] = useState("기본 제목")
@@ -40,7 +43,10 @@ function App() {
       {/* <TitleList /> */}
       {/* <UseStateArr/> */}
       {/* <FlexEx/> */}
-      <ObjectEx/>
+      {/* <ObjectEx/> */}
+      {/* <Filter/> */}
+      {/* <AddRemove/> */}
+      <Timer />
     </>
   )
 }
