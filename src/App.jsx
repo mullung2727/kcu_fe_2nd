@@ -12,6 +12,7 @@ import ObjectEx from './react_study/ex02_useState/ex06_object'
 import Filter from './react_study/ex02_useState/ex07_filter'
 import AddRemove from './react_study/ex03_useEffect/ex01_localstorage'
 import Timer from './react_study/ex03_useEffect/ex02_Timer'
+import MyApp from './react_study/ex05_useContext/ex05_useContext'
 
 function App() {
   // const [title, setTitle] = useState("기본 제목")
@@ -47,6 +48,7 @@ function App() {
       {/* <Filter/> */}
       {/* <AddRemove/> */}
       <Timer />
+      {/* <MyApp/> */}
     </>
   )
 }
