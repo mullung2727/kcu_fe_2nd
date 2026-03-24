@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 const cardStyle = {
   backgroundColor: "#4C4E58",
   color: "#fff",
   padding: "40px",
-  
+
   borderRadius: "12px",
   width: "50%",
   margin: "50px auto",
@@ -14,13 +14,13 @@ const cardStyle = {
 
 };
 
-const fieldStyle = { 
-  background: "#72757C", 
+const fieldStyle = {
+  background: "#72757C",
   border: "none",
   borderRadius: "10px",
-  padding: "8px 4px", 
-  color: "#FDFDFD", 
-  fontSize: "25px" 
+  padding: "8px 4px",
+  color: "#FDFDFD",
+  fontSize: "25px"
 };
 
 const wrapperStyle = {
@@ -35,7 +35,7 @@ const cardNameStyle = {
   fontWeight: "bold",
   color: "#FDFDFD",
   fontSize: "25px",
-  textAlign: "left"  
+  textAlign: "left"
 };
 
 const deleteButtonStyle = {
@@ -63,29 +63,57 @@ const cardDescStyle = {
   textAlign: "left"
 };
 
-// TODO userInfo 추가
+const LoginContext = createContext();
 
-// TODO LoginForm 만들기
-function LoginForm({setIsLoginFormOpen, setUser}) {
+// TODO userInfo 추가
+const usersInfo = [
+  { id: 'id1', pw: '1234' },
+  { id: 'id2', pw: '5678' },
+]
+
+function LoginForm(
+  // { setIsLoginFormOpen, setUser }
+) {
+  const {setIsLoginFormOpen, setUser} = useContext(LoginContext)
+  const [form, setForm] = useState({ id: "", pw: "" });
+  const [error, setError] = useState("");
+  const loginRef = useRef(null);
 
   const handleChange = (e) => {
-
+    setForm((prev) => {
+      return { ...prev, [e.target.name]: e.target.value }
+    })
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+    const ok = usersInfo.some(
+      (u) => {
+        return (u.id === form.id) && (u.pw === form.pw)
+      }
+    )
+    if (ok) {
+      setIsLoginFormOpen(false);
+      setUser(form.id)
+    } else {
+      setError("아이디/비밀번호가 일치하지 않습니다.")
+    }
 
-    
   }
+
+  useEffect(()=>{
+    loginRef.current?.focus();
+  }, [])
 
   return (
     <form
       onSubmit={handleSubmit}
-      style={{border:"1px solid lightgray"}}
+      style={{ border: "1px solid lightgray" }}
     >
       <div
         style={{
-          display:"flex",
-          gap:"8px",
+          display: "flex",
+          gap: "8px",
         }}
       >
         <label htmlFor="login_id">
@@ -96,6 +124,7 @@ function LoginForm({setIsLoginFormOpen, setUser}) {
             type="text"
             value={form.id}
             onChange={handleChange}
+            ref={loginRef}
           />
         </label>
         <label htmlFor="login_pw">
@@ -109,19 +138,20 @@ function LoginForm({setIsLoginFormOpen, setUser}) {
           />
         </label>
         {error ? (
-          <p style={{color:'red'}}>{error}</p>
+          <p style={{ color: 'red' }}>{error}</p>
         ) : (
           <p></p>
         )}
       </div>
 
-      <div 
+      <div
         style={{
-          display:"flex", 
-          gap:"8px", 
-          justifyContent:"flex-end"}}
+          display: "flex",
+          gap: "8px",
+          justifyContent: "flex-end"
+        }}
       >
-        <button type='button' onClick={()=>{
+        <button type='button' onClick={() => {
 
         }}>취소</button>
         <button type="submit">전송</button>
@@ -130,7 +160,10 @@ function LoginForm({setIsLoginFormOpen, setUser}) {
   )
 }
 
-function Header() { // TODO prop 추가
+function Header(
+  // { user, setIsLoginFormOpen, setUser }
+) { 
+  const {user, setIsLoginFormOpen, setUser} = useContext(LoginContext)
   return (
     <header
       style={{
@@ -138,18 +171,51 @@ function Header() { // TODO prop 추가
         display: "flex",
         alignItems: "center",
         paddingBottom: '20px',
-        paddingTop:'20px'
+        paddingTop: '20px'
       }}
     >
       <h1 style={{ flex: 1, textAlign: "center", margin: 0 }}>리액트 연습</h1>
       {/* TODO 상태에 따라 로긴 로그아웃 조건 추가 */}
+      {user ? (
+        <div>
+          <span>안녕하세요 {user} 님</span>
+          <button
+            style={{
+              padding: "8px 16px",
+              marginLeft: "10px",
+              border: "1px solid gray",
+              cursor: "pointer",
+            }}
+            onClick={()=>{
+              setUser(null);
+              // setIsLoginFormOpen(false)
+            }}
+          >
+            로그아웃
+          </button>
+        </div>
+      ) : (
+        <button
+          style={{
+            padding: "8px 16px",
+            border: "1px solid gray",
+            borderRadius: "9999px",
+            cursor: "pointer",
+          }}
+          onClick={()=>{
+            setIsLoginFormOpen(true)
+          }}
+        >
+          로그인
+        </button>
+      )}
 
     </header>
   )
 }
 
 function AddRemove() {
-  const [card, setCard] = useState(()=>{
+  const [card, setCard] = useState(() => {
     const saved = localStorage.getItem("cards")
     return saved ? JSON.parse(saved) : [];
   })
@@ -169,7 +235,7 @@ function AddRemove() {
     setForm({ name: '', desc: '' })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem("cards", JSON.stringify(card))
     nameInputRef.current?.focus()
   }, [card])
@@ -185,9 +251,9 @@ function AddRemove() {
 
           <button
             onClick={() => {
-                setCard(prev => prev.filter((_, i) => i !== idx))
-                console.log(`${item.name} 삭제되었습니다.`)
-              }
+              setCard(prev => prev.filter((_, i) => i !== idx))
+              console.log(`${item.name} 삭제되었습니다.`)
+            }
             }
             style={deleteButtonStyle}
           >삭제</button>
@@ -197,12 +263,12 @@ function AddRemove() {
 
         <div style={fieldGroupStyle}>
           <label style={labelStyle}>캐릭터 이름</label>
-          <input 
-            type="text" 
-            name="name" 
-            value={form.name} 
-            onChange={changeHandler} 
-            style={fieldStyle} 
+          <input
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={changeHandler}
+            style={fieldStyle}
             ref={nameInputRef} // 이름 입력창에 ref 연결
           />
         </div>
@@ -210,18 +276,30 @@ function AddRemove() {
           <label style={labelStyle}>캐릭터 설정</label>
           <textarea name="desc" value={form.desc} onChange={changeHandler} rows={4} style={fieldStyle} />
         </div>
-        <button type="submit" style={{cursor: "pointer"}}>추가</button>
+        <button type="submit" style={{ cursor: "pointer" }}>추가</button>
       </form>
     </div>
   )
 }
 
 export default function MyApp() {
+  const [user, setUser] = useState(null)
+  const [isLoginFormOpen ,setIsLoginFormOpen] = useState(false);
+  const value = {user, setUser, setIsLoginFormOpen}
   return (
-    <>
-    {/* TODO Header prop으로 user 추가 */}
-      <Header/>
+    <LoginContext.Provider value={value}>
+      <Header 
+        // user={user}
+        // setIsLoginFormOpen={setIsLoginFormOpen}
+        // setUser={setUser}
+      />
+      {isLoginFormOpen && !user &&
+        <LoginForm 
+          // setIsLoginFormOpen={setIsLoginFormOpen}
+          // setUser={setUser}
+        />
+      }
       <AddRemove />
-    </>
+    </LoginContext.Provider>
   )
 }

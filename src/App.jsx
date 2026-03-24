@@ -10,8 +10,10 @@ import UseStateArr from './react_study/ex02_useState/ex04_arr'
 import FlexEx from './react_study/ex02_useState/ex05_flex'
 import ObjectEx from './react_study/ex02_useState/ex06_object'
 import Filter from './react_study/ex02_useState/ex07_filter'
-import AddRemove from './react_study/ex03_useEffect/ex01_localstorage'
+import AddRemove from './react_study/ex04_useRef/ex01_useRef'
 import Timer from './react_study/ex03_useEffect/ex02_Timer'
+import TestContext from './react_study/ex05_useContext/ex01_noContext'
+import LangComp from './react_study/ex05_useContext/ex03_language'
 import MyApp from './react_study/ex05_useContext/ex05_useContext'
 
 function App() {
@@ -47,8 +49,11 @@ function App() {
       {/* <ObjectEx/> */}
       {/* <Filter/> */}
       {/* <AddRemove/> */}
-      <Timer />
+      {/* <Timer /> */}
       {/* <MyApp/> */}
+      {/* <TestContext/> */}
+      {/* <LangComp /> */}
+      <MyApp />
     </>
   )
 }
