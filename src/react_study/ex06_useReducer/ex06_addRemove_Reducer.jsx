@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react";
 
 const cardStyle = {
   backgroundColor: "#4C4E58",
@@ -213,9 +213,20 @@ function Header(
     </header>
   )
 }
-
+function cardReducer(state, action) {
+  switch(action.type) {
+    case 'AddCard':
+      return [...state, action.payload]
+    case 'DelCard':
+      return state.filter((_, i) => i !== action.payload)
+  }
+}
 function AddRemove() {
-  const [card, setCard] = useState(() => {
+  // const [card, setCard] = useState(() => {
+  //   const saved = localStorage.getItem("cards")
+  //   return saved ? JSON.parse(saved) : [];
+  // })
+  const [card, dispatch] = useReducer(cardReducer, [], () => {
     const saved = localStorage.getItem("cards")
     return saved ? JSON.parse(saved) : [];
   })
@@ -228,10 +239,11 @@ function AddRemove() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCard(prev => {
-      const newCard = [...prev, form];
-      return newCard
-    })
+    // setCard(prev => {
+    //   const newCard = [...prev, form];
+    //   return newCard
+    // })
+    dispatch({type:"AddCard", payload: form})
     setForm({ name: '', desc: '' })
   }
 
@@ -251,7 +263,8 @@ function AddRemove() {
 
           <button
             onClick={() => {
-              setCard(prev => prev.filter((_, i) => i !== idx))
+              // setCard(prev => prev.filter((_, i) => i !== idx))
+              dispatch({type:'DelCard', payload:idx})
               console.log(`${item.name} 삭제되었습니다.`)
             }
             }
@@ -282,7 +295,7 @@ function AddRemove() {
   )
 }
 
-export default function MyApp() {
+export default function MyAppReducer() {
   const [user, setUser] = useState(null)
   const [isLoginFormOpen ,setIsLoginFormOpen] = useState(false);
   const value = {user, setUser, setIsLoginFormOpen}

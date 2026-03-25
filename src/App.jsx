@@ -15,6 +15,13 @@ import Timer from './react_study/ex03_useEffect/ex02_Timer'
 import TestContext from './react_study/ex05_useContext/ex01_noContext'
 import LangComp from './react_study/ex05_useContext/ex03_language'
 import MyApp from './react_study/ex05_useContext/ex05_useContext'
+import ReducerEx from './react_study/ex06_useReducer/ex02_useReducer'
+import InfoList, { BookList } from './react_study/ex06_useReducer/ex04_destructuring'
+import ReducerCounter from './react_study/ex06_useReducer/ex05_counter'
+import MyAppReducer from './react_study/ex06_useReducer/ex06_addRemove_Reducer'
+import ExpensiveCalc from './react_study/ex07_useMemo/ex01_expensiveCalc'
+import UseCallbackEx from './react_study/ex08_useCallback/ex01_useCallback'
+import SearchBox from './react_study/ex08_useCallback/ex02_debounce'
 
 function App() {
   // const [title, setTitle] = useState("기본 제목")
@@ -53,7 +60,15 @@ function App() {
       {/* <MyApp/> */}
       {/* <TestContext/> */}
       {/* <LangComp /> */}
-      <MyApp />
+      {/* <MyApp /> */}
+      {/* <ReducerEx/> */}
+      {/* <InfoList/> */}
+      {/* <BookList /> */}
+      {/* <ReducerCounter/> */}
+      {/* <MyAppReducer/> */}
+      {/* <ExpensiveCalc/> */}
+      {/* <UseCallbackEx/> */}
+      <SearchBox />
     </>
   )
 }

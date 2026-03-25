@@ -1,5 +1,17 @@
+import { useReducer } from "react";
+
 function counterReducer(state, action) {
   // To Do : switch로 INCREMENT, DECREMENT, RESET 구현해보기
+  switch(action.type) {
+    case 'INCREMENT':
+      return state+1;
+    case 'DECREMENT':
+      return state-1;
+    case 'RESET':
+      return 0
+    default:
+      console.error("Unexpected Type")
+  }
 }
 
 export default function ReducerCounter() {
