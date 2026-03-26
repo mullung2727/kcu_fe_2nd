@@ -34,4 +34,4 @@ const post = {
 };
 
 const {title, comments:[{text},{id}], author:{name}} = post
-console.log(text, id)
+console.log(text, id, title, name)

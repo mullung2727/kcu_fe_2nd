@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 function slowSum(n) {
   console.log("느린 계산 실행");
