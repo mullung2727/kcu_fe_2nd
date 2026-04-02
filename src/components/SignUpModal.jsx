@@ -5,9 +5,24 @@ import { useState } from "react";
 import { signUp } from "../services/auth_sign_up";
 
 export default function SignUpModal() {
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [error, setError] = useState("");
 
   const handleSignUp = async (e) => {
+    e.preventDefault();
+    if(password !== passwordConfirm) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
 
+    try {
+
+    } catch {
+
+    }
   };
 
   return (

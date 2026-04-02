@@ -4,7 +4,7 @@ import { Provider } from './components/ui/provider.jsx'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import AuthProvider from './contexts/AuthProvider.jsx'
-
+import { Toaster } from "./components/ui/toaster.jsx"
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider>
@@ -13,6 +13,7 @@ createRoot(document.getElementById('root')).render(
           <App />
         </BrowserRouter>
       </AuthProvider>
+      <Toaster />
     </Provider>
   </StrictMode>
 )
