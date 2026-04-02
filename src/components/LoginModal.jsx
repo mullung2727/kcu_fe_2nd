@@ -37,22 +37,15 @@ export default function LoginModal() {
     }
   }
 
-  useEffect(()=>{
-    const unsubscribe = onAuthStateChange((loginUser)=>{
-      console.log("onAuthStateChange 실행")
-      console.log(loginUser)
-      setUser(loginUser);
-    })
-    return ()=>unsubscribe()
-  }, [])
+  // useEffect(()=>{
+  //   const unsubscribe = onAuthStateChange((loginUser)=>{
+  //     console.log("onAuthStateChange 실행")
+  //     console.log(loginUser)
+  //     setUser(loginUser);
+  //   })
+  //   return ()=>unsubscribe()
+  // }, [])
 
-
-
-  if (user) {
-    return (
-      <MenuWithAvatar />
-    )
-  }
 
 
 
@@ -86,7 +79,7 @@ export default function LoginModal() {
           <Dialog.Body>
             <Fieldset.Root invalid={loginError}> 
               <Field.Root mb={4}>
-                <Field.Label>아이디</Field.Label>
+                <Field.Label>이메일</Field.Label>
                 <Input 
                   type="text"
                   placeholder="이메일을 입력하세요"

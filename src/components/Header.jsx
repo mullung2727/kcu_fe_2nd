@@ -2,8 +2,13 @@ import { Box, Button, Container, HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ColorModeButton} from "./ui/color-mode"
 import LoginModal from "./LoginModal";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthProvider";
+import SignUpModal from "./SignUpModal";
+import MenuWithAvatar from "./MenuWithAvatar";
 
 export default function Header(){
+  const {user} = useContext(AuthContext);
   return (
     <Container
       maxW='container.xl'
@@ -37,7 +42,15 @@ export default function Header(){
           </HStack>
         </Box>
         <HStack>
-          <LoginModal />
+          { user ? (
+            <MenuWithAvatar />
+
+          ) : (
+            <>
+            <SignUpModal />
+            <LoginModal />
+            </>
+          )}
           <ColorModeButton/>
         </HStack>
       </HStack>
