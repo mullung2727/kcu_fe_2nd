@@ -1,7 +1,12 @@
+import { updateProfile } from "firebase/auth";
 import { toaster } from "../components/ui/toaster";
 import { firebaseErrorMessages } from "../config/firebaseError"
 import { login } from "./auth";
 import { googleSignIn } from "./auth_google_sign_in";
+import {signUp} from "./auth_sign_up"
+import { uploadAvater } from "./storage";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const TOAST_OPTIONS = {
   duration: 10000,
@@ -9,6 +14,7 @@ const TOAST_OPTIONS = {
 }
 
 export default function authService() {
+  const {setUser} = useContext(AuthContext)
   const getErrorMsg = (err) => {
     return firebaseErrorMessages[err?.code] || `에러가 발생하였습니다: ${err?.code}`
   }
@@ -45,6 +51,7 @@ export default function authService() {
   const loginWithGoogle = async () => {
     try {
       const {user} = await googleSignIn();
+
       showLoginSuccessToast(user)
       return user
     } catch(err) {
@@ -53,8 +60,26 @@ export default function authService() {
     }
   }
 
+  const signUpWithEmail = async (email, password, avatarFile=null) => {
+    try {
+      const user = await signUp(email, password);
+      if(avatarFile) {
+        const photoURL = await uploadAvater(user.uid, avatarFile)
+        await updateProfile(user, {photoURL})
+        user.photoURL = photoURL;
+        setUser({...user})
+      }
+      showLoginSuccessToast(user);
+      return user;
+    } catch(err) {
+      showLoginErrorToast(err)
+      throw err;
+    }
+  }
+
   return {
     loginWithEmail,
-    loginWithGoogle
+    loginWithGoogle,
+    signUpWithEmail
   }
 }
