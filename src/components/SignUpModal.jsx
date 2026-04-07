@@ -185,7 +185,7 @@ export default function SignUpModal() {
               </Text>
               <Separator flex="1"/>
             </HStack>
-            <GoogleLoginButton />
+            <GoogleLoginButton isSubmitting={isSubmitting}/>
           </Dialog.Body>
         </Dialog.Content>
       </Dialog.Positioner>

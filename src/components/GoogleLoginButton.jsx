@@ -4,7 +4,7 @@ import { googleSignIn } from "../services/auth_google_sign_in"
 import { toaster } from "./ui/toaster"
 import authService from "../services/authService"
 
-export default function GoogleLoginButton() {
+export default function GoogleLoginButton({isSubmitting}) {
   const {loginWithGoogle} = authService();
   const handleGoogleLogin = async () => {
     try {
@@ -19,6 +19,7 @@ export default function GoogleLoginButton() {
       width="100%"
       onClick={handleGoogleLogin}
       variant="outline"
+      loading={isSubmitting}
     >
       <Box 
         as="img"
